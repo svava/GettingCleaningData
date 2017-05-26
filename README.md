@@ -54,7 +54,45 @@ This is the README.md file for the Getting and Cleaning Data Final Assignment. A
 <p> </p>
 <p> </p>
 
- Another file, the output from step 5 listed in "The Data Cleansing Task" should be uploaded to the Coursera website as part of the assignment submission. I have included this file as well in the GitHub repository for easy reference.
+ Another file, the output from step 5 listed in "The Data Cleansing Task" should be uploaded to the Coursera website as part of the assignment submission. I have included this tidydata.txt file as well in the GitHub repository for easy reference.
+
+
+<table border = 1>
+ <tr >
+  <th >
+  <p align=center > <b> File </b> </p>
+  </th>
+   <th >
+  <p align=center > <b>  Description </b> </p>
+
+  </th>
+ </tr>
+ <tr >
+  <td >
+  <p '> tidydata.txt </p>
+  </td>
+  <td >
+  <p > A file of tidy data created from the UCI HAR dataset using the run_analysis.R script. The file is located at https://github.com/svava/GettingCleaningData </p>
+  </td>
+ </tr>
+  <tr >
+  <td >
+  <p '> CodeBook.md </p>
+  </td>
+  <td >
+  <p > A file in markdown format that describes the variables (columns) contained in the tidy data set that must be uploaded to the coursera website as part of the project submission process. https://github.com/svava/GettingCleaningData </p>
+  </td>
+ </tr>
+  <tr >
+  <td >
+  <p > run_analysis.R </p>
+  </td>
+ <td >
+   <p >An R script that contains all of the R functions used to transform the eight input data files into the required formats for steps 4 and 5 of the assignment instructions. </p>
+  </td>
+ </tr>
+</table>
+
 
 ### Dataset use disclosure
 Original data was obtained from https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
