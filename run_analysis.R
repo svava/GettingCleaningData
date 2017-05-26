@@ -199,8 +199,7 @@ data <- read.table(pathtofile, header = TRUE)
                                                                                  WALKING_UPSTAIRS
                                                                                  ", "")))
      
-     fwrite(features,file=pathtofile)
-     fileConn<-file("output.txt")
+    fileConn<-file("output.txt")
      
      names(features)<- c("Data Dictionary", "Tidy Data from UCI HAR Dataset")
      
