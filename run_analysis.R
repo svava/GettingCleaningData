@@ -161,3 +161,54 @@ fwrite(tidydata, file = pathtofile)
 ## load and view the output
 data <- read.table(pathtofile, header = TRUE) 
      View(data)
+     
+     
+## The following code was used to help generate the content of the CodeBook.md file. The top part of the file was typed manually.
+  ## Then, the content from output.txt was pasted in
+     features <- names(meanActivityDT)
+     features <- data.table(features)
+     names(features)<- c("desc")
+     features <- transform(features, feature_desc  = ifelse(grepl("Mean", features$desc), "Mean value of the ", ""))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Std", features$desc), "Standard Deviation of the ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Gyro", features$desc), "Angular ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Mag", features$desc), "Magnitude of the ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Jerk", features$desc), "Jerk of the ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Body", features$desc), "Body ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Gravity", features$desc), "Gravity ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Acc", features$desc), "Acceleration ", "")))
+     
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("^t", features$desc), "time domain ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("^f", features$desc), "frequency domain ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("^t|^f", features$desc), "signal ", "")))
+    
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("X", features$desc), "on the x axis of the phone ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Y", features$desc), "on the y axis of the phone ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Z", features$desc), "on the z axis of the phone ", "")))
+     
+  
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("^t|^f", features$desc), "normalized and bounded within [-1,1].", "")))
+ 
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("subject", features$desc), "One of a group of 30 volunteers within an age bracket of 19-48 years who performed the activities in the experiment. 
+                                                                                 Range is from 1 to 30 denoting each different test subject.", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("activity", features$desc), "Activity of daily living (ADL) performed while carrying a waist-mounted smartphone with embedded inertial sensors. 
+                                                                                 LAYING
+                                                                                 SITTING
+                                                                                 STANDING
+                                                                                 WALKING
+                                                                                 WALKING_DOWNSTAIRS
+                                                                                 WALKING_UPSTAIRS
+                                                                                 ", "")))
+     
+     fwrite(features,file=pathtofile)
+     fileConn<-file("output.txt")
+     
+     names(features)<- c("Data Dictionary", "Tidy Data from UCI HAR Dataset")
+     
+     
+     
+     ##Note that the HTML breaks are being generated in the separators
+     write.table(features, file = fileConn, append = TRUE, quote = FALSE, sep = " \n <BR>",
+                 eol = "\r\n \r\n", na = "NA", dec = ".", row.names = FALSE,
+                 col.names = TRUE, qmethod = c("escape"),
+                 fileEncoding = "")
+     

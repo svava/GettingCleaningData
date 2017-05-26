@@ -63,6 +63,20 @@ Use of this dataset  is acknowledged by referencing the following publication [1
 
 [1] Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
 
+## Tidy Data
+According to the Tidy Data paper by Hadley Wickham (http://vita.had.co.nz/papers/tidy-data.pdf), there are four components of tidy data:
+1. Each measured variable forms a column
+2. Each different observation of variables forms a row
+3. Each type of observational unit forms a table
+4. If there are multiple tables, they should include a column in the table which allows them to be linked.
+
+Additionally, there should be:
+
+* a row including the variable names at the top of each file
+* human readable variable names
+* data should be saved in one file per table
+
+
 
 ## Steps performed in the run_analysis.R 
 
@@ -171,12 +185,14 @@ rm("activity_labelsDT")
 rm("meanDT")
 
 
-### remove special characters from column names
-names(meanActivityDT) <-gsub("[[:punct:]]","",names(ByActivityMean))
+### Make the column names to make them more human readable
+First, I removed the special punctuation characters to make it easier to reference the column names without using escape characters or generating syntax errors.
+names(meanActivityDT) <-gsub("[[:punct:]]","",names(meanActivityDT))
 
-### Capitalize Std and Mean
-names(meanActivityDT) <-gsub("std","Std",names(ByActivityMean))
-names(meanActivityDT) <-gsub("mean","Mean",names(ByActivityMean))
+I capitalized Std and Mean to make these more easily human readable
+I did not further manipulate the variable names in the tidy data set, already these variable names are on the longer side, and full descriptions of each variable are available in the CodeBook.md file
+names(meanActivityDT) <-gsub("std","Std",names(meanActivityDT))
+names(meanActivityDT) <-gsub("mean","Mean",names(meanActivityDT))
 
 
 
@@ -189,7 +205,11 @@ tidydata <- meanActivityDT %>% summarize_all(mean)
 pathtofile <- normalizePath(file.path(tempdir,"tidydata.txt"))
 fwrite(by_Activity, file = pathtofile)
 
-### Display the file
+### Display the tidy data file
+Tidy data as per the ReadMe that can be read into R with read.table(header=TRUE). 
+
+
+
 Use the below code to preview the tidydata text file in R:
 ```
 
@@ -198,3 +218,11 @@ data <- read.table(pathtofile, header = TRUE)
      View(data)
 
 ```
+## Create the codebook
+The final part of the run_analysis.R file contains the code which was used to help automate the descriptions of the feature variables for the codebook. The column names were added to a features list and converted to a data table. 
+Using pattern matching and string replacements, a new variable feature_desc was added to the features data table, then written out to a text file. 
+The entire contents of the output text file containing feature descriptions was manually copied and appended to a manually created CodeBook.md file using RStudio.
+
+##Note: Source Data Set Description can be found at:
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones#
+
