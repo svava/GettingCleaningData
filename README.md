@@ -29,7 +29,7 @@ This is the README.md file for the Getting and Cleaning Data Final Assignment. A
   <p '> README.md </p>
   </td>
   <td >
-  <p > A file in markdown format that disolays when someone accesses the GitHub repository for a person's submission for the course project. The file is located at github.com/svava </p>
+  <p > A file in markdown format that displays when someone accesses the GitHub repository for a person's submission for the course project. The file is located at github.com/svava </p>
   </td>
  </tr>
   <tr >
@@ -37,7 +37,7 @@ This is the README.md file for the Getting and Cleaning Data Final Assignment. A
   <p '> CodeBook.md </p>
   </td>
   <td >
-  <p > A file in markdown format that describes the variables (columns) contained in the tidy data set that must be uploaded to the coursera website as part of the project submission process. The file is located at ...... </p>
+  <p > A file in markdown format that describes the variables (columns) contained in the tidy data set that must be uploaded to the coursera website as part of the project submission process. A file of tidy data created from the UCI HAR dataset using the run_analysis.R script. The file is located at https://github.com/svava/GettingCleaningData </p>
   </td>
  </tr>
   <tr >
@@ -75,24 +75,10 @@ This is the README.md file for the Getting and Cleaning Data Final Assignment. A
   <p > A file of tidy data created from the UCI HAR dataset using the run_analysis.R script. The file is located at https://github.com/svava/GettingCleaningData </p>
   </td>
  </tr>
-  <tr >
-  <td >
-  <p '> CodeBook.md </p>
-  </td>
-  <td >
-  <p > A file in markdown format that describes the variables (columns) contained in the tidy data set that must be uploaded to the coursera website as part of the project submission process. https://github.com/svava/GettingCleaningData </p>
-  </td>
- </tr>
-  <tr >
-  <td >
-  <p > run_analysis.R </p>
-  </td>
- <td >
-   <p >An R script that contains all of the R functions used to transform the eight input data files into the required formats for steps 4 and 5 of the assignment instructions. </p>
-  </td>
- </tr>
 </table>
 
+<p> </p>
+<p> </p>
 
 ### Dataset use disclosure
 Original data was obtained from https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
@@ -154,7 +140,7 @@ testDT <- fread(pathtofile)
 pathtofile <- normalizePath(file.path(tempdir,"UCI HAR Dataset", "train", "X_train.txt"))
 trainDT <- fread(pathtofile)
 
-###Merge the test and activity data into single sets
+### Merge the test and activity data into single sets
 Starting with subjects, merge the test_subjectsDT and train_subjectsDT into subjectsDT:
 
 subjectsDT <- rbind(test_subjectsDT,train_subjectsDT)
