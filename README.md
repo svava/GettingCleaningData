@@ -5,9 +5,6 @@ date: "May 26, 2017"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 <p> </p>
 
 
@@ -104,12 +101,14 @@ Additionally, there should be:
 
 ## Steps performed in the run_analysis.R 
 
-### 1. Dataset download and extraction
-Zipped dataset is downloaded from https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip to a local temporary file location, and then files are extracted using unzip function from zip to a temporary directory called tempdir.
+### Assumption note:
+This script assumes that the Samsung data folder "UCI HAR Dataset" is in your working directory
 
-### 2. Load data.table and dplyr libraries
+### 1. Load data.table and dplyr libraries
 The data.table library is used for flexible and quick manipulation of data. The dplyr library is used for chaining commands.
 <p> </p>
+
+### 2. Create a working directory variable "workdir" containing the working directory
 
 ### 3. Load source data files to data tables
 The metadata files feature labels and  activity labels are loaded respectively to master data.tables feature_labelsDT and activity_labelsDT using normalized file paths and fread().
@@ -243,9 +242,16 @@ data <- read.table(pathtofile, header = TRUE)
 
 ```
 ## Create the codebook
+In order to create the CodeBook.md file, the following steps were performed. 
+<OL>
+<LI>Copy and paste the contents of the UCI HAR Dataset README.txt file to the first part of CodeBook.md
+<LI>Copy and paste the contents of the features_info.txt to the next part of CodeBook.md
+<LI>Copy and paste the transformed feature variable descriptions from the tidydata_variable_descriptions.txt file that was generated as the final portion of the run_analysis.R file.
+</OL>
+<BR>
 The final part of the run_analysis.R file contains the code which was used to help automate the descriptions of the feature variables for the codebook. The column names were added to a features list and converted to a data table. 
-Using pattern matching and string replacements, a new variable feature_desc was added to the features data table, then written out to a text file. 
-The entire contents of the output text file containing feature descriptions was manually copied and appended to a manually created CodeBook.md file using RStudio.
+Using pattern matching and string replacements, a new variable feature_desc was added to the features data table, then written out to a text file "tidydata_variable_descriptions.txt". 
+The entire contents of the output text file containing feature descriptions was manually copied and appended to the manually created CodeBook.md file using RStudio.
 
 ##Note: Source Data Set Description can be found at:
 http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones#

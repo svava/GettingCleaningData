@@ -5,224 +5,333 @@ date: "May 26, 2017"
 output: html_document
 ---
 
-This Code Book describes the variables contained in the tidydata.txt file produced by running the run_analysis.R. For full details see the README.md.
+This Code Book describes the variables in the source data set to produce the variables contained in the tidydata.txt file produced by running the run_analysis.R, and the variables contained in the tidydata.txt file. For full details on the steps to generate the variables described in this file from the original variables, see the README.md.
 
-Data Dictionary 
- <BR>Tidy Data from UCI HAR Dataset
+
+### Raw Source Data - Human Activity Recognition Using Smartphones Dataset Version 1.0
+
+Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto.
+Smartlab - Non Linear Complex Systems Laboratory
+DITEN - Università degli Studi di Genova.
+Via Opera Pia 11A, I-16145, Genoa, Italy.
+activityrecognition@smartlab.ws
+www.smartlab.ws
+
+The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
+
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See 'features_info.txt' for more details. 
+
+### For each record it is provided:
+
+- Triaxial acceleration from the accelerometer (total acceleration) and the estimated body acceleration.
+- Triaxial Angular velocity from the gyroscope. 
+- A 561-feature vector with time and frequency domain variables. 
+- Its activity label. 
+- An identifier of the subject who carried out the experiment.
+
+### The dataset includes the following files:
+
+- 'README.txt'
+
+- 'features_info.txt': Shows information about the variables used on the feature vector.
+
+- 'features.txt': List of all features.
+
+- 'activity_labels.txt': Links the class labels with their activity name.
+
+- 'train/X_train.txt': Training set.
+
+- 'train/y_train.txt': Training labels.
+
+- 'test/X_test.txt': Test set.
+
+- 'test/y_test.txt': Test labels.
+
+The following files are available for the train and test data. Their descriptions are equivalent. 
+
+- 'train/subject_train.txt': Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. 
+
+- 'train/Inertial Signals/total_acc_x_train.txt': The acceleration signal from the smartphone accelerometer X axis in standard gravity units 'g'. Every row shows a 128 element vector. The same description applies for the 'total_acc_x_train.txt' and 'total_acc_z_train.txt' files for the Y and Z axis. 
+
+- 'train/Inertial Signals/body_acc_x_train.txt': The body acceleration signal obtained by subtracting the gravity from the total acceleration. 
+
+- 'train/Inertial Signals/body_gyro_x_train.txt': The angular velocity vector measured by the gyroscope for each window sample. The units are radians/second. 
+
+#### Notes: 
+
+* Features are normalized and bounded within [-1,1].
+* Each feature vector is a row on the text file.
+
  
-activity 
- <BR>Activity of daily living (ADL) performed while carrying a waist-mounted smartphone with embedded inertial sensors.  <BR>
-                                                                                 LAYING <BR>
-                                                                                 SITTING <BR>
-                                                                                 STANDING <BR>
-                                                                                 WALKING <BR>
-                                                                                 WALKING_DOWNSTAIRS <BR>
-                                                                                 WALKING_UPSTAIRS <BR>
-                                                                                 
+### Feature Selection 
+
+The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+
+Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
+
+Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
+
+These signals were used to estimate variables of the feature vector for each pattern:  
+'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
+
+tBodyAcc-XYZ
+tGravityAcc-XYZ
+tBodyAccJerk-XYZ
+tBodyGyro-XYZ
+tBodyGyroJerk-XYZ
+tBodyAccMag
+tGravityAccMag
+tBodyAccJerkMag
+tBodyGyroMag
+tBodyGyroJerkMag
+fBodyAcc-XYZ
+fBodyAccJerk-XYZ
+fBodyGyro-XYZ
+fBodyAccMag
+fBodyAccJerkMag
+fBodyGyroMag
+fBodyGyroJerkMag
+
+The set of variables that were estimated from these signals are: 
+
+* mean(): Mean value
+* std(): Standard deviation
+* mad(): Median absolute deviation 
+* max(): Largest value in array
+* min(): Smallest value in array
+* sma(): Signal magnitude area
+* energy(): Energy measure. Sum of the squares divided by the number of values. 
+* iqr(): Interquartile range 
+* entropy(): Signal entropy
+* arCoeff(): Autorregresion coefficients with Burg order equal to 4
+* correlation(): correlation coefficient between two signals
+* maxInds(): index of the frequency component with largest magnitude
+* meanFreq(): Weighted average of the frequency components to obtain a mean frequency
+* skewness(): skewness of the frequency domain signal 
+* kurtosis(): kurtosis of the frequency domain signal 
+* bandsEnergy(): Energy of a frequency interval within the 64 bins of the FFT of each window.
+* angle(): Angle between to vectors.
+
+Additional vectors obtained by averaging the signals in a signal window sample. These are used on the angle() variable:
+
+* gravityMean
+* tBodyAccMean
+* tBodyAccJerkMean
+* tBodyGyroMean
+* tBodyGyroJerkMean
+
+## Tidy Data Set Transformations
  
-subject 
- <BR>One of a group of 30 volunteers within an age bracket of 19-48 years who performed the activities in the experiment. 
+To produce the tidy dataset, the test and train data sets were merged, the subject and activity labels were included. Then, only the Mean and Standard deviation variables on each measurement were selected, and descriptive activity names as defined in activity_labels.txt were used to label the activities. Finally, an independent tidy data set containing the average (mean) of each of the Mean and Standard deviation variables for each activity and each subject was created. <BR>
+The description of each variable contained in the tidydata.txt dataset is contained in the "Data Dictionary  - Tidy Data from UCI HAR Dataset"" section.
+ 
+ 
+## Data Dictionary  - Tidy Data from UCI HAR Dataset
+<DT><STRONG> activity </STRONG> 
+ <BR><DD>Activity of daily living (ADL) performed while carrying a waist-mounted smartphone with embedded inertial sensors. <BR> LAYING <BR> SITTING <BR> STANDING <BR>  WALKING <BR>  WALKING_DOWNSTAIRS <BR> WALKING_UPSTAIRS
+ 
+<DT><STRONG> subject </STRONG> 
+ <BR><DD>One of a group of 30 volunteers within an age bracket of 19-48 years who performed the activities in the experiment. 
                                                                                  Range is from 1 to 30 denoting each different test subject.
  
-tBodyAccMeanX 
- <BR>Mean value of the Body Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccMeanX </STRONG> 
+ <BR><DD>Mean of the mean value of the Body Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccMeanY 
- <BR>Mean value of the Body Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccMeanY </STRONG> 
+ <BR><DD>Mean of the mean value of the Body Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccMeanZ 
- <BR>Mean value of the Body Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccMeanZ </STRONG> 
+ <BR><DD>Mean of the mean value of the Body Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccStdX 
- <BR>Standard Deviation of the Body Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccStdX </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Body Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccStdY 
- <BR>Standard Deviation of the Body Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccStdY </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Body Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccStdZ 
- <BR>Standard Deviation of the Body Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccStdZ </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Body Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-tGravityAccMeanX 
- <BR>Mean value of the Gravity Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tGravityAccMeanX </STRONG> 
+ <BR><DD>Mean of the mean value of the Gravity Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-tGravityAccMeanY 
- <BR>Mean value of the Gravity Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tGravityAccMeanY </STRONG> 
+ <BR><DD>Mean of the mean value of the Gravity Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-tGravityAccMeanZ 
- <BR>Mean value of the Gravity Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tGravityAccMeanZ </STRONG> 
+ <BR><DD>Mean of the mean value of the Gravity Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-tGravityAccStdX 
- <BR>Standard Deviation of the Gravity Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tGravityAccStdX </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Gravity Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-tGravityAccStdY 
- <BR>Standard Deviation of the Gravity Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tGravityAccStdY </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Gravity Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-tGravityAccStdZ 
- <BR>Standard Deviation of the Gravity Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tGravityAccStdZ </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Gravity Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccJerkMeanX 
- <BR>Mean value of the Jerk of the Body Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccJerkMeanX </STRONG> 
+ <BR><DD>Mean of the mean value of the Jerk of the Body Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccJerkMeanY 
- <BR>Mean value of the Jerk of the Body Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccJerkMeanY </STRONG> 
+ <BR><DD>Mean of the mean value of the Jerk of the Body Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccJerkMeanZ 
- <BR>Mean value of the Jerk of the Body Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccJerkMeanZ </STRONG> 
+ <BR><DD>Mean of the mean value of the Jerk of the Body Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccJerkStdX 
- <BR>Standard Deviation of the Jerk of the Body Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccJerkStdX </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Jerk of the Body Acceleration time domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccJerkStdY 
- <BR>Standard Deviation of the Jerk of the Body Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccJerkStdY </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Jerk of the Body Acceleration time domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccJerkStdZ 
- <BR>Standard Deviation of the Jerk of the Body Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccJerkStdZ </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Jerk of the Body Acceleration time domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroMeanX 
- <BR>Mean value of the Angular Body time domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroMeanX </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Body time domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroMeanY 
- <BR>Mean value of the Angular Body time domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroMeanY </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Body time domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroMeanZ 
- <BR>Mean value of the Angular Body time domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroMeanZ </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Body time domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroStdX 
- <BR>Standard Deviation of the Angular Body time domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroStdX </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Body time domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroStdY 
- <BR>Standard Deviation of the Angular Body time domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroStdY </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Body time domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroStdZ 
- <BR>Standard Deviation of the Angular Body time domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroStdZ </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Body time domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroJerkMeanX 
- <BR>Mean value of the Angular Jerk of the Body time domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroJerkMeanX </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Jerk of the Body time domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroJerkMeanY 
- <BR>Mean value of the Angular Jerk of the Body time domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroJerkMeanY </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Jerk of the Body time domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroJerkMeanZ 
- <BR>Mean value of the Angular Jerk of the Body time domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroJerkMeanZ </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Jerk of the Body time domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroJerkStdX 
- <BR>Standard Deviation of the Angular Jerk of the Body time domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroJerkStdX </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Jerk of the Body time domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroJerkStdY 
- <BR>Standard Deviation of the Angular Jerk of the Body time domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroJerkStdY </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Jerk of the Body time domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-tBodyGyroJerkStdZ 
- <BR>Standard Deviation of the Angular Jerk of the Body time domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroJerkStdZ </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Jerk of the Body time domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-tBodyAccMagMean 
- <BR>Mean value of the Magnitude of the Body Acceleration time domain signal normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccMagMean </STRONG> 
+ <BR><DD>Mean of the mean value of the Magnitude of the Body Acceleration time domain signal normalized and bounded within [-1,1].
  
-tBodyAccMagStd 
- <BR>Standard Deviation of the Magnitude of the Body Acceleration time domain signal normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccMagStd </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Magnitude of the Body Acceleration time domain signal normalized and bounded within [-1,1].
  
-tGravityAccMagMean 
- <BR>Mean value of the Magnitude of the Gravity Acceleration time domain signal normalized and bounded within [-1,1].
+<DT><STRONG> tGravityAccMagMean </STRONG> 
+ <BR><DD>Mean of the mean value of the Magnitude of the Gravity Acceleration time domain signal normalized and bounded within [-1,1].
  
-tGravityAccMagStd 
- <BR>Standard Deviation of the Magnitude of the Gravity Acceleration time domain signal normalized and bounded within [-1,1].
+<DT><STRONG> tGravityAccMagStd </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Magnitude of the Gravity Acceleration time domain signal normalized and bounded within [-1,1].
  
-tBodyAccJerkMagMean 
- <BR>Mean value of the Magnitude of the Jerk of the Body Acceleration time domain signal normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccJerkMagMean </STRONG> 
+ <BR><DD>Mean of the mean value of the Magnitude of the Jerk of the Body Acceleration time domain signal normalized and bounded within [-1,1].
  
-tBodyAccJerkMagStd 
- <BR>Standard Deviation of the Magnitude of the Jerk of the Body Acceleration time domain signal normalized and bounded within [-1,1].
+<DT><STRONG> tBodyAccJerkMagStd </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Magnitude of the Jerk of the Body Acceleration time domain signal normalized and bounded within [-1,1].
  
-tBodyGyroMagMean 
- <BR>Mean value of the Angular Magnitude of the Body time domain signal normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroMagMean </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Magnitude of the Body time domain signal normalized and bounded within [-1,1].
  
-tBodyGyroMagStd 
- <BR>Standard Deviation of the Angular Magnitude of the Body time domain signal normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroMagStd </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Magnitude of the Body time domain signal normalized and bounded within [-1,1].
  
-tBodyGyroJerkMagMean 
- <BR>Mean value of the Angular Magnitude of the Jerk of the Body time domain signal normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroJerkMagMean </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Magnitude of the Jerk of the Body time domain signal normalized and bounded within [-1,1].
  
-tBodyGyroJerkMagStd 
- <BR>Standard Deviation of the Angular Magnitude of the Jerk of the Body time domain signal normalized and bounded within [-1,1].
+<DT><STRONG> tBodyGyroJerkMagStd </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Magnitude of the Jerk of the Body time domain signal normalized and bounded within [-1,1].
  
-fBodyAccMeanX 
- <BR>Mean value of the Body Acceleration frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccMeanX </STRONG> 
+ <BR><DD>Mean of the mean value of the Body Acceleration frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccMeanY 
- <BR>Mean value of the Body Acceleration frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccMeanY </STRONG> 
+ <BR><DD>Mean of the mean value of the Body Acceleration frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccMeanZ 
- <BR>Mean value of the Body Acceleration frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccMeanZ </STRONG> 
+ <BR><DD>Mean of the mean value of the Body Acceleration frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccStdX 
- <BR>Standard Deviation of the Body Acceleration frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccStdX </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Body Acceleration frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccStdY 
- <BR>Standard Deviation of the Body Acceleration frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccStdY </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Body Acceleration frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccStdZ 
- <BR>Standard Deviation of the Body Acceleration frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccStdZ </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Body Acceleration frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccJerkMeanX 
- <BR>Mean value of the Jerk of the Body Acceleration frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccJerkMeanX </STRONG> 
+ <BR><DD>Mean of the mean value of the Jerk of the Body Acceleration frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccJerkMeanY 
- <BR>Mean value of the Jerk of the Body Acceleration frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccJerkMeanY </STRONG> 
+ <BR><DD>Mean of the mean value of the Jerk of the Body Acceleration frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccJerkMeanZ 
- <BR>Mean value of the Jerk of the Body Acceleration frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccJerkMeanZ </STRONG> 
+ <BR><DD>Mean of the mean value of the Jerk of the Body Acceleration frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccJerkStdX 
- <BR>Standard Deviation of the Jerk of the Body Acceleration frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccJerkStdX </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Jerk of the Body Acceleration frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccJerkStdY 
- <BR>Standard Deviation of the Jerk of the Body Acceleration frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccJerkStdY </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Jerk of the Body Acceleration frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccJerkStdZ 
- <BR>Standard Deviation of the Jerk of the Body Acceleration frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccJerkStdZ </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Jerk of the Body Acceleration frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-fBodyGyroMeanX 
- <BR>Mean value of the Angular Body frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyGyroMeanX </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Body frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-fBodyGyroMeanY 
- <BR>Mean value of the Angular Body frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyGyroMeanY </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Body frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-fBodyGyroMeanZ 
- <BR>Mean value of the Angular Body frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyGyroMeanZ </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Body frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-fBodyGyroStdX 
- <BR>Standard Deviation of the Angular Body frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyGyroStdX </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Body frequency domain signal on the x axis of the phone normalized and bounded within [-1,1].
  
-fBodyGyroStdY 
- <BR>Standard Deviation of the Angular Body frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyGyroStdY </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Body frequency domain signal on the y axis of the phone normalized and bounded within [-1,1].
  
-fBodyGyroStdZ 
- <BR>Standard Deviation of the Angular Body frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
+<DT><STRONG> fBodyGyroStdZ </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Body frequency domain signal on the z axis of the phone normalized and bounded within [-1,1].
  
-fBodyAccMagMean 
- <BR>Mean value of the Magnitude of the Body Acceleration frequency domain signal normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccMagMean </STRONG> 
+ <BR><DD>Mean of the mean value of the Magnitude of the Body Acceleration frequency domain signal normalized and bounded within [-1,1].
  
-fBodyAccMagStd 
- <BR>Standard Deviation of the Magnitude of the Body Acceleration frequency domain signal normalized and bounded within [-1,1].
+<DT><STRONG> fBodyAccMagStd </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Magnitude of the Body Acceleration frequency domain signal normalized and bounded within [-1,1].
  
-fBodyBodyAccJerkMagMean 
- <BR>Mean value of the Magnitude of the Jerk of the Body Acceleration frequency domain signal normalized and bounded within [-1,1].
+<DT><STRONG> fBodyBodyAccJerkMagMean </STRONG> 
+ <BR><DD>Mean of the mean value of the Magnitude of the Jerk of the Body Acceleration frequency domain signal normalized and bounded within [-1,1].
  
-fBodyBodyAccJerkMagStd 
- <BR>Standard Deviation of the Magnitude of the Jerk of the Body Acceleration frequency domain signal normalized and bounded within [-1,1].
+<DT><STRONG> fBodyBodyAccJerkMagStd </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Magnitude of the Jerk of the Body Acceleration frequency domain signal normalized and bounded within [-1,1].
  
-fBodyBodyGyroMagMean 
- <BR>Mean value of the Angular Magnitude of the Body frequency domain signal normalized and bounded within [-1,1].
+<DT><STRONG> fBodyBodyGyroMagMean </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Magnitude of the Body frequency domain signal normalized and bounded within [-1,1].
  
-fBodyBodyGyroMagStd 
- <BR>Standard Deviation of the Angular Magnitude of the Body frequency domain signal normalized and bounded within [-1,1].
+<DT><STRONG> fBodyBodyGyroMagStd </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Magnitude of the Body frequency domain signal normalized and bounded within [-1,1].
  
-fBodyBodyGyroJerkMagMean 
- <BR>Mean value of the Angular Magnitude of the Jerk of the Body frequency domain signal normalized and bounded within [-1,1].
+<DT><STRONG> fBodyBodyGyroJerkMagMean </STRONG> 
+ <BR><DD>Mean of the mean value of the Angular Magnitude of the Jerk of the Body frequency domain signal normalized and bounded within [-1,1].
  
-fBodyBodyGyroJerkMagStd 
- <BR>Standard Deviation of the Angular Magnitude of the Jerk of the Body frequency domain signal normalized and bounded within [-1,1].
+<DT><STRONG> fBodyBodyGyroJerkMagStd </STRONG> 
+ <BR><DD>Mean of the Standard Deviation of the Angular Magnitude of the Jerk of the Body frequency domain signal normalized and bounded within [-1,1].
  
 
- 
-##Note: Source Data Set Description can be found at:
+####Note: Source Data Set Description can be found at:
 http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones#

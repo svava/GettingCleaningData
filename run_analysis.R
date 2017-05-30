@@ -12,58 +12,49 @@
 ## 4.	Appropriately labels the data set with descriptive variable names. 
 ## 5.	From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-## First download the source data. This is going to run in the default directory
-fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-destfile <- "UCI_HAR_Dataset.zip"
-## Need to set the download method to binary
-download.file(fileURL, destfile, mode = "wb")
+## Note: The code should have a file run_analysis.R in the main directory that can be run as long as the Samsung data is in your working directory
+## Make sure to set your working directory to a folder containing the unzipped "UCI HAR Dataset" folder in order for the script to work.
 
 ##Load data.table library and dplyr libraries
 library(data.table)
 library(dplyr)
 
-# Create a name for the directory where we'll unzip
-tempdir <- tempfile()
-
-# Create the directory using that name
-dir.create(tempdir)
-
-# Unzip the file into the dir
-unzip(destfile, exdir=tempdir)
+# Create a working directory variable containing the working directory
+workdir <- getwd()
 
 
-## Now load the feature_labels from the features.txt file within the zip archive
-pathtofile <- normalizePath(file.path(tempdir,"UCI HAR Dataset", "features.txt"))
+## Now load the feature_labels from the features.txt file within the UCI HAR Dataset
+pathtofile <- normalizePath(file.path(workdir,"UCI HAR Dataset", "features.txt"))
 feature_labelsDT <- fread(pathtofile)
 
 ##Load the master ActivityLabels
-pathtofile <- normalizePath(file.path(tempdir,"UCI HAR Dataset", "activity_labels.txt"))
+pathtofile <- normalizePath(file.path(workdir,"UCI HAR Dataset", "activity_labels.txt"))
 activity_labelsDT <- fread(pathtofile)
 
 ## Now start loading the data files
 ##Load Test Subject Labels
-pathtofile <- normalizePath(file.path(tempdir,"UCI HAR Dataset", "test", "subject_test.txt"))
+pathtofile <- normalizePath(file.path(workdir,"UCI HAR Dataset", "test", "subject_test.txt"))
 test_subjectsDT <- fread(pathtofile)
 
 ##Load Train Subject Labels
-pathtofile <- normalizePath(file.path(tempdir,"UCI HAR Dataset", "train", "subject_train.txt"))
+pathtofile <- normalizePath(file.path(workdir,"UCI HAR Dataset", "train", "subject_train.txt"))
 train_subjectsDT <- fread(pathtofile)
 
 
 ##Load Test Activity Labels
-pathtofile <- normalizePath(file.path(tempdir,"UCI HAR Dataset", "test", "y_test.txt"))
+pathtofile <- normalizePath(file.path(workdir,"UCI HAR Dataset", "test", "y_test.txt"))
 test_activitiesDT <- fread(pathtofile)
 
 ##Load Train Activity Labels
-pathtofile <- normalizePath(file.path(tempdir,"UCI HAR Dataset", "train", "y_train.txt"))
+pathtofile <- normalizePath(file.path(workdir,"UCI HAR Dataset", "train", "y_train.txt"))
 train_activitiesDT <- fread(pathtofile)
 
 ##LoadTestData
-pathtofile <- normalizePath(file.path(tempdir,"UCI HAR Dataset", "test", "X_test.txt"))
+pathtofile <- normalizePath(file.path(workdir,"UCI HAR Dataset", "test", "X_test.txt"))
 testDT <- fread(pathtofile)
 
 ##Load Train Data
-pathtofile <- normalizePath(file.path(tempdir,"UCI HAR Dataset", "train", "X_train.txt"))
+pathtofile <- normalizePath(file.path(workdir,"UCI HAR Dataset", "train", "X_train.txt"))
 trainDT <- fread(pathtofile)
 
 ##Merge the test and train subjects while keeping order by using rbind
@@ -154,21 +145,20 @@ meanActivityDT <- meanActivityDT  %>% group_by(subject, activity)
 tidydata <- meanActivityDT %>% summarize_all(mean)
 
 
-## Write output file
-pathtofile <- normalizePath(file.path(tempdir,"tidydata.txt"))
-fwrite(tidydata, file = pathtofile)
+## As per the assignment instructions, create a tidy data set txt file with write.table() using row.name=FALSE
+pathtofile <- normalizePath(file.path(workdir,"tidydata.txt"))
+write.table(tidydata, file = pathtofile, row.names = FALSE)
 
 ## load and view the output
 data <- read.table(pathtofile, header = TRUE) 
      View(data)
      
      
-## The following code was used to help generate the content of the CodeBook.md file. The top part of the file was typed manually.
-  ## Then, the content from output.txt was pasted in
+## The following code was used to help generate the detailed variables description section content of the CodeBook.md file. 
      features <- names(meanActivityDT)
      features <- data.table(features)
      names(features)<- c("desc")
-     features <- transform(features, feature_desc  = ifelse(grepl("Mean", features$desc), "Mean value of the ", ""))
+     features <- transform(features, feature_desc  = ifelse(grepl("Mean", features$desc), "mean value of the ", ""))
      features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Std", features$desc), "Standard Deviation of the ", "")))
      features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Gyro", features$desc), "Angular ", "")))
      features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("Mag", features$desc), "Magnitude of the ", "")))
@@ -187,27 +177,25 @@ data <- read.table(pathtofile, header = TRUE)
      
   
      features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("^t|^f", features$desc), "normalized and bounded within [-1,1].", "")))
- 
+     
+     features <- transform(features, feature_desc  = paste0(ifelse(grepl("^t|^f", features$desc), "Mean of the ", ""), feature_desc ))
+     
      features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("subject", features$desc), "One of a group of 30 volunteers within an age bracket of 19-48 years who performed the activities in the experiment. 
                                                                                  Range is from 1 to 30 denoting each different test subject.", "")))
-     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("activity", features$desc), "Activity of daily living (ADL) performed while carrying a waist-mounted smartphone with embedded inertial sensors. 
-                                                                                 LAYING
-                                                                                 SITTING
-                                                                                 STANDING
-                                                                                 WALKING
-                                                                                 WALKING_DOWNSTAIRS
-                                                                                 WALKING_UPSTAIRS
-                                                                                 ", "")))
+     features <- transform(features, feature_desc  = paste0(feature_desc, ifelse(grepl("activity", features$desc), activity_definition, "")))
      
-    fileConn<-file("output.txt")
+     ## Using HTML definitions syntax, add the definition term formatting
+     features <- transform(features, desc  = paste0("<DT><STRONG> " ,desc, " </STRONG>"))
+     ## Using HTML  definitions syntax, add the definition formatting
+     features <- transform(features, feature_desc  = paste0("<DD>", feature_desc ))
      
-     names(features)<- c("Data Dictionary", "Tidy Data from UCI HAR Dataset")
+    fileConn<-file("tidydata_variable_descriptions.txt")
      
-     
+
      
      ##Note that the HTML breaks are being generated in the separators
      write.table(features, file = fileConn, append = TRUE, quote = FALSE, sep = " \n <BR>",
                  eol = "\r\n \r\n", na = "NA", dec = ".", row.names = FALSE,
-                 col.names = TRUE, qmethod = c("escape"),
+                 col.names = FALSE, qmethod = c("escape"),
                  fileEncoding = "")
      
