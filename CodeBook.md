@@ -341,5 +341,5 @@ The description of each variable contained in the tidydata.txt dataset is contai
  <BR><DD>Mean of the Standard Deviation of the Angular Magnitude of the Jerk of the Body frequency domain signal normalized and bounded within [-1,1].
  
 
-####Note: Source Data Set Description can be found at:
+#### Note: Source Data Set Description can be found at:
 http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones#
