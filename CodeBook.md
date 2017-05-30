@@ -6,9 +6,15 @@ output: html_document
 ---
 
 This Code Book describes the variables in the source data set to produce the variables contained in the tidydata.txt file produced by running the run_analysis.R, and the variables contained in the tidydata.txt file. For full details on the steps to generate the variables described in this file from the original variables, see the README.md.
+<OL> Included information
+<LI> <a href="#raw">Raw Source Data README Information </a> 
+<LI> <a href="#features_info">Source Data features_info Information </a> 
+<LI> <a href="#transform">Tidy Data Set Transformations</a> 
+<LI> <a href="#dictionary">Data Dictionary  - Tidy Data from UCI HAR Dataset</a> Description of each variable in tidydata.txt
+</OL>
 
-
-### Raw Source Data - Human Activity Recognition Using Smartphones Dataset Version 1.0
+## Raw Source Data <a name="raw"></a> 
+#### Human Activity Recognition Using Smartphones Dataset Version 1.0
 
 Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto.
 Smartlab - Non Linear Complex Systems Laboratory
@@ -21,7 +27,7 @@ The experiments have been carried out with a group of 30 volunteers within an ag
 
 The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See 'features_info.txt' for more details. 
 
-### For each record it is provided:
+#### For each record it is provided:
 
 - Triaxial acceleration from the accelerometer (total acceleration) and the estimated body acceleration.
 - Triaxial Angular velocity from the gyroscope. 
@@ -29,7 +35,7 @@ The sensor signals (accelerometer and gyroscope) were pre-processed by applying 
 - Its activity label. 
 - An identifier of the subject who carried out the experiment.
 
-### The dataset includes the following files:
+#### The dataset includes the following files:
 
 - 'README.txt'
 
@@ -63,7 +69,9 @@ The following files are available for the train and test data. Their description
 * Each feature vector is a row on the text file.
 
  
-### Feature Selection 
+### Features information from Source Data features_info.txt <a name="features_info"></a> 
+
+Feature Selection 
 
 The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
 
@@ -120,13 +128,13 @@ Additional vectors obtained by averaging the signals in a signal window sample. 
 * tBodyGyroMean
 * tBodyGyroJerkMean
 
-## Tidy Data Set Transformations
+## Tidy Data Set Transformations<a name="transform"></a> 
  
 To produce the tidy dataset, the test and train data sets were merged, the subject and activity labels were included. Then, only the Mean and Standard deviation variables on each measurement were selected, and descriptive activity names as defined in activity_labels.txt were used to label the activities. Finally, an independent tidy data set containing the average (mean) of each of the Mean and Standard deviation variables for each activity and each subject was created. <BR>
 The description of each variable contained in the tidydata.txt dataset is contained in the "Data Dictionary  - Tidy Data from UCI HAR Dataset"" section.
  
  
-## Data Dictionary  - Tidy Data from UCI HAR Dataset
+## Data Dictionary  - Tidy Data from UCI HAR Dataset<a name="dictionary"></a> 
 <DT><STRONG> activity </STRONG> 
  <BR><DD>Activity of daily living (ADL) performed while carrying a waist-mounted smartphone with embedded inertial sensors. <BR> LAYING <BR> SITTING <BR> STANDING <BR>  WALKING <BR>  WALKING_DOWNSTAIRS <BR> WALKING_UPSTAIRS
  
